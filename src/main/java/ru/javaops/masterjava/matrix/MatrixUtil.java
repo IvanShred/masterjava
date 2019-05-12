@@ -1,8 +1,10 @@
 package ru.javaops.masterjava.matrix;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.*;
 
 /**
  * gkislin
@@ -15,6 +17,19 @@ public class MatrixUtil {
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
 
+        List<Future> futures = new ArrayList<>();
+        for (int i = 0; i < matrixSize; i++) {
+            futures.add(executor.submit(new CalculateRowElements(i, matrixSize, matrixA, matrixB, matrixC)));
+        }
+        while (!futures.isEmpty()) {
+            Iterator<Future> iterator = futures.iterator();
+            while (iterator.hasNext()) {
+                Future nextFuture = iterator.next();
+                if (nextFuture.isDone()) {
+                    iterator.remove();
+                }
+            }
+        }
         return matrixC;
     }
 
@@ -23,14 +38,23 @@ public class MatrixUtil {
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
 
-        for (int i = 0; i < matrixSize; i++) {
-            for (int j = 0; j < matrixSize; j++) {
-                int sum = 0;
+        try {
+            int thatColumn[] = new int[matrixSize];
+            for (int j = 0; ; j++) {
                 for (int k = 0; k < matrixSize; k++) {
-                    sum += matrixA[i][k] * matrixB[k][j];
+                    thatColumn[k] = matrixB[k][j];
                 }
-                matrixC[i][j] = sum;
+
+                for (int i = 0; i < matrixSize; i++) {
+                    int thisRow[] = matrixA[i];
+                    int sum = 0;
+                    for (int k = 0; k < matrixSize; k++) {
+                        sum += thisRow[k] * thatColumn[k];
+                    }
+                    matrixC[i][j] = sum;
+                }
             }
+        } catch (IndexOutOfBoundsException ignored) {
         }
         return matrixC;
     }
@@ -57,5 +81,40 @@ public class MatrixUtil {
             }
         }
         return true;
+    }
+
+    private static class CalculateRowElements implements Runnable {
+        int row;
+        int matrixSize;
+        int[][] matrixA;
+        int[][] matrixB;
+        int[][] matrixC;
+
+        CalculateRowElements(int rowIndex, int matrixSize, int[][] matrixA, int[][] matrixB, int[][] matrixC) {
+            this.row = rowIndex;
+            this.matrixSize = matrixSize;
+            this.matrixA = matrixA;
+            this.matrixB = matrixB;
+            this.matrixC = matrixC;
+        }
+
+        @Override
+        public void run() {
+            try {
+                int thatColumn[] = new int[matrixSize];
+                for (int j = 0; ; j++) {
+                    for (int k = 0; k < matrixSize; k++) {
+                        thatColumn[k] = matrixB[k][j];
+                    }
+                    int thisRow[] = matrixA[row];
+                    int sum = 0;
+                    for (int k = 0; k < matrixSize; k++) {
+                        sum += thisRow[k] * thatColumn[k];
+                    }
+                    matrixC[row][j] = sum;
+                }
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        }
     }
 }
