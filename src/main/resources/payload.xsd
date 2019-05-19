@@ -84,8 +84,6 @@
         </xs:simpleContent>
     </xs:complexType>
 
-    <xs:element name="Group" type="groupType"/>
-
     <xs:complexType name="groupType">
         <xs:simpleContent>
             <xs:extension base="xs:string">

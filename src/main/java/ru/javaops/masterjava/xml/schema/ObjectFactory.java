@@ -25,6 +25,7 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _City_QNAME = new QName("http://javaops.ru", "City");
+    private final static QName _Group_QNAME = new QName("http://javaops.ru", "Group");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ru.javaops.masterjava.xml.schema
@@ -39,6 +40,22 @@ public class ObjectFactory {
      */
     public Payload createPayload() {
         return new Payload();
+    }
+
+    /**
+     * Create an instance of {@link Project }
+     * 
+     */
+    public Project createProject() {
+        return new Project();
+    }
+
+    /**
+     * Create an instance of {@link GroupType }
+     * 
+     */
+    public GroupType createGroupType() {
+        return new GroupType();
     }
 
     /**
@@ -66,6 +83,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Payload.Projects }
+     * 
+     */
+    public Payload.Projects createPayloadProjects() {
+        return new Payload.Projects();
+    }
+
+    /**
      * Create an instance of {@link CityType }
      * 
      */
@@ -80,6 +105,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://javaops.ru", name = "City")
     public JAXBElement<CityType> createCity(CityType value) {
         return new JAXBElement<CityType>(_City_QNAME, CityType.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GroupType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://javaops.ru", name = "Group")
+    public JAXBElement<GroupType> createGroup(GroupType value) {
+        return new JAXBElement<GroupType>(_Group_QNAME, GroupType.class, null, value);
     }
 
 }
