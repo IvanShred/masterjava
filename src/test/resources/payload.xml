@@ -2,15 +2,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://javaops.ru payload.xsd">
     <Users>
-        <User flag="active" city="kiv" email="gmail@gmail.com" groups="topjava06 basejava02">
-            <fullName>Full Name</fullName>
-        </User>
-        <User flag="superuser" city="spb" email="admin@javaops.ru" groups="topjava07 topjava08 masterjava01">
-            <fullName>Admin</fullName>
-        </User>
-        <User flag="deleted" city="spb" email="mail@yandex.ru" groups="basejava01">
-            <fullName>Deleted</fullName>
-        </User>
+        <User fullName="Full Name" flag="active" city="kiv" email="gmail@gmail.com" groups="topjava06 basejava02"/>
+        <User fullName="Admin" flag="superuser" city="spb" email="admin@javaops.ru"
+              groups="topjava07 topjava08 masterjava01"/>
+        <User fullName="Deleted" flag="deleted" city="spb" email="mail@yandex.ru" groups="basejava01"/>
     </Users>
     <Cities>
         <City id="spb">Санкт-Петербург</City>

@@ -39,7 +39,7 @@ public class MainXml {
         Collections.sort(projectUsers);
         System.out.println();
         for (User user: projectUsers) {
-            System.out.println(user.getFullName());
+            System.out.println(user.getFullName() + " / " + user.getEmail());
         }
     }
 }
