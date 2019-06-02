@@ -1,6 +1,8 @@
 package ru.javaops.masterjava.upload;
 
 import org.thymeleaf.context.WebContext;
+import ru.javaops.masterjava.persist.DBIProvider;
+import ru.javaops.masterjava.persist.dao.UserDao;
 import ru.javaops.masterjava.persist.model.User;
 
 import javax.servlet.ServletException;
@@ -12,7 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static ru.javaops.masterjava.common.web.ThymeleafListener.engine;
 
@@ -31,6 +36,7 @@ public class UploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final WebContext webContext = new WebContext(req, resp, req.getServletContext(), req.getLocale());
+        int chunkSize = Integer.parseInt(req.getParameter("chunkSize"));
 
         try {
 //            http://docs.oracle.com/javaee/6/tutorial/doc/glraq.html
@@ -40,7 +46,17 @@ public class UploadServlet extends HttpServlet {
             }
             try (InputStream is = filePart.getInputStream()) {
                 List<User> users = userProcessor.process(is);
-                webContext.setVariable("users", users);
+
+                UserDao userDao = DBIProvider.getDao(UserDao.class);
+                Iterator<User> userIterator = users.iterator();
+                int[] result = userDao.insertBatch(userIterator, chunkSize);
+
+                List<User> repeatingUsers = new ArrayList<>();
+                IntStream.range(0, result.length)
+                        .filter(x -> result[x] == 0)
+                        .forEach((x) -> repeatingUsers.add(users.get(x)));
+
+                webContext.setVariable("users", repeatingUsers);
                 engine.process("result", webContext, resp.getWriter());
             }
         } catch (Exception e) {
