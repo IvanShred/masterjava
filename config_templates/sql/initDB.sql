@@ -28,7 +28,7 @@ CREATE SEQUENCE project_seq
 CREATE TABLE projects
 (
   id          INTEGER DEFAULT nextval('project_seq') PRIMARY KEY,
-  name        TEXT NOT NULL,
+  project_name        TEXT NOT NULL,
   description TEXT NOT NULL
 );
 
