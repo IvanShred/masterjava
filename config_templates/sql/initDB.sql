@@ -7,12 +7,20 @@ DROP TYPE IF EXISTS group_type;
 DROP TABLE IF EXISTS projects;
 DROP SEQUENCE IF EXISTS project_seq;
 DROP TABLE IF EXISTS cities;
+DROP SEQUENCE IF EXISTS city_seq;
+
+CREATE SEQUENCE city_seq
+  START 100000;
 
 CREATE TABLE cities
 (
-  id        TEXT PRIMARY KEY,
-  city_name TEXT NOT NULL
+  id          INTEGER DEFAULT nextval('city_seq') PRIMARY KEY,
+  designation TEXT NOT NULL,
+  city_name   TEXT NOT NULL
 );
+
+CREATE UNIQUE INDEX designation_idx
+  ON cities (designation);
 
 CREATE SEQUENCE project_seq
   START 100000;
@@ -31,10 +39,10 @@ CREATE SEQUENCE group_seq
 
 CREATE TABLE groups
 (
-  id   INTEGER DEFAULT nextval('group_seq') PRIMARY KEY,
-  name TEXT       NOT NULL,
-  type group_type NOT NULL,
-  project_id INTEGER NOT NULL,
+  id         INTEGER DEFAULT nextval('group_seq') PRIMARY KEY,
+  name       TEXT       NOT NULL,
+  type       group_type NOT NULL,
+  project_id INTEGER    NOT NULL,
   FOREIGN KEY (project_id) REFERENCES public.projects (id)
   ON DELETE CASCADE
 );
@@ -49,10 +57,10 @@ CREATE TABLE users (
   full_name TEXT      NOT NULL,
   email     TEXT      NOT NULL,
   flag      user_flag NOT NULL,
-  city_id   TEXT      NOT NULL,
-  group_id  INTEGER   NOT NULL,
-  FOREIGN KEY (city_id) REFERENCES public.cities (id) ON DELETE CASCADE,
-  FOREIGN KEY (group_id) REFERENCES public.groups (id) ON DELETE CASCADE
+  city_id   INTEGER   NOT NULL,
+  --   group_id  INTEGER   NOT NULL,
+  FOREIGN KEY (city_id) REFERENCES public.cities (id) ON DELETE CASCADE
+  --   FOREIGN KEY (group_id) REFERENCES public.groups (id) ON DELETE CASCADE
 );
 
 CREATE UNIQUE INDEX email_idx
