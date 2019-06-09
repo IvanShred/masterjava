@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import ru.javaops.masterjava.persist.dao.GroupDao;
 import ru.javaops.masterjava.persist.model.Group;
 import ru.javaops.masterjava.persist.model.GroupType;
-import ru.javaops.masterjava.persist.model.Project;
 
 import java.util.List;
 
@@ -16,10 +15,10 @@ public class GroupTestData {
     public static List<Group> GROUPS;
 
     public static void init() {
-        TOPJAVA06 = new Group("topjava06", GroupType.FINISHED, new Project(10000, "topjava", "Topjava"));
-        TOPJAVA07 = new Group("topjava07", GroupType.FINISHED, new Project(10000, "topjava", "Topjava"));
-        TOPJAVA08 = new Group("topjava08", GroupType.CURRENT, new Project(10000, "topjava", "Topjava"));
-        MASTERJAVA01 = new Group("masterjava01", GroupType.CURRENT, new Project(10001, "masterjava", "Masterjava"));
+        TOPJAVA06 = new Group("topjava06", GroupType.FINISHED, 100000);
+        TOPJAVA07 = new Group("topjava07", GroupType.FINISHED, 100000);
+        TOPJAVA08 = new Group("topjava08", GroupType.CURRENT, 100000);
+        MASTERJAVA01 = new Group("masterjava01", GroupType.CURRENT, 100001);
         GROUPS = ImmutableList.of(MASTERJAVA01, TOPJAVA06, TOPJAVA07, TOPJAVA08);
     }
 

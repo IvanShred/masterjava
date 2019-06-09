@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS user_groups;
+DROP SEQUENCE IF EXISTS user_group_seq;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS user_seq;
 DROP TYPE IF EXISTS user_flag;
@@ -65,3 +67,16 @@ CREATE TABLE users (
 
 CREATE UNIQUE INDEX email_idx
   ON users (email);
+
+CREATE SEQUENCE user_group_seq
+  START 100000;
+
+CREATE TABLE user_groups
+(
+  id INTEGER DEFAULT nextval('user_group_seq') PRIMARY KEY,
+  user_id INTEGER NOT NULL,
+  group_id INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES public.users (id),
+  FOREIGN KEY (group_id) REFERENCES public.groups (id)
+);
+

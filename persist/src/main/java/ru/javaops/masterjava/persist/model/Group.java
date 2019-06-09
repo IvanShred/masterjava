@@ -1,5 +1,6 @@
 package ru.javaops.masterjava.persist.model;
 
+import com.bertoncelj.jdbi.entitymapper.Column;
 import lombok.*;
 
 @Data
@@ -9,10 +10,11 @@ import lombok.*;
 public class Group extends BaseEntity {
     private @NonNull String name;
     private @NonNull GroupType type;
-    private @NonNull Project project;
+    @Column("project_id")
+    private @NonNull int projectId;
 
-    public Group(Integer id, String name, GroupType type, Project project) {
-        this(name, type, project);
+    public Group(Integer id, String name, GroupType type, int projectId) {
+        this(name, type, projectId);
         this.id = id;
     }
 }

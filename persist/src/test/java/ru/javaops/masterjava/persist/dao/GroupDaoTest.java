@@ -9,7 +9,7 @@ import ru.javaops.masterjava.persist.model.Group;
 
 import java.util.List;
 
-public class GroupDaoTest extends AbstractDaoTest<GroupDao>{
+public class GroupDaoTest extends AbstractDaoTest<GroupDao> {
 
     public GroupDaoTest() {
         super(GroupDao.class);
@@ -25,9 +25,9 @@ public class GroupDaoTest extends AbstractDaoTest<GroupDao>{
         GroupTestData.setUp();
     }
 
-//    @Test
-//    public void getWithLimit() {
-//        List<Group> groups = dao.getWithLimit(4);
-//        Assert.assertEquals(GroupTestData.GROUPS, groups);
-//    }
+    @Test
+    public void getWithLimit() {
+        List<Group> groups = dao.getWithLimit(4);
+        Assert.assertEquals(GroupTestData.GROUPS, groups);
+    }
 }
