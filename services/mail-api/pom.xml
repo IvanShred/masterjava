@@ -23,4 +23,11 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>C:\apps\masterjava\config</directory>
+            </resource>
+        </resources>
+    </build>
 </project>
