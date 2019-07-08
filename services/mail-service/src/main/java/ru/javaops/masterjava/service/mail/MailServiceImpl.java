@@ -1,10 +1,12 @@
 package ru.javaops.masterjava.service.mail;
 
-import ru.javaops.web.WebStateException;
+import ru.javaops.masterjava.web.WebStateException;
 
 import javax.jws.WebService;
+import javax.xml.ws.soap.MTOM;
 import java.util.Set;
 
+@MTOM
 @WebService(endpointInterface = "ru.javaops.masterjava.service.mail.MailService", targetNamespace = "http://mail.javaops.ru/"
 //          , wsdlLocation = "WEB-INF/wsdl/mailService.wsdl"
 )
